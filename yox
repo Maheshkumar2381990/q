@@ -1,0 +1,123 @@
+var username = "your_username";
+var password = "your_password";
+var apiCaller = new ApiCaller(username, password);
+string apiUrl = "https://api.example.com/data";
+string response = await apiCaller.CallApiAsync(apiUrl);
+
+if (response != null)
+{
+    // Process the API response
+    Console.WriteLine(response);
+}
+else
+{
+    // Handle API call error
+    Console.WriteLine("API call failed.");
+}
+
+
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace YourNamespace
+{
+    public class ApiCaller
+    {
+        private readonly HttpClient httpClient;
+
+        public ApiCaller(string username, string password)
+        {
+            httpClient = new HttpClient();
+
+            // Convert the username and password to Base64 and add it to the Authorization header.
+            string authHeaderValue = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authHeaderValue);
+        }
+
+        public async Task<string> CallApiAsync(string apiUrl)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read and return the response content as a string
+                    return await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    // Handle API error here
+                    // You can throw an exception, log the error, or take appropriate action.
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during the request.
+                return null;
+            }
+        }
+    }
+}
+
+
+var apiCaller = new ApiCaller();
+string apiUrl = "https://api.example.com/data";
+string response = await apiCaller.CallApiAsync(apiUrl);
+
+if (response != null)
+{
+    // Process the API response
+    Console.WriteLine(response);
+}
+else
+{
+    // Handle API call error
+    Console.WriteLine("API call failed.");
+}
+
+
+using System;
+using System.Net.Http;
+
+namespace YourNamespace
+{
+    public class ApiCaller
+    {
+        private readonly HttpClient httpClient;
+
+        public ApiCaller()
+        {
+            httpClient = new HttpClient();
+            // You can configure HttpClient settings here, such as base address, headers, and timeouts.
+        }
+
+        public async Task<string> CallApiAsync(string apiUrl)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read and return the response content as a string
+                    return await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    // Handle API error here
+                    // You can throw an exception, log the error, or take appropriate action.
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during the request.
+                return null;
+            }
+        }
+    }
+}
